@@ -7,6 +7,9 @@ cache:
     - .cache/pip
     - venv/
 
+stages:
+  - publish 
+
 publish-unstable:
   stage: publish
   script:
