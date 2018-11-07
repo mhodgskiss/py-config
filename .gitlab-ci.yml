@@ -14,10 +14,10 @@ stages:
   - test
   - publish 
 
-lint:
-  stage: test
-  script:
-    - pylint --rcfile=./.pylintrc klein_config/*
+# lint:
+#   stage: test
+#   script:
+#     - pylint --rcfile=./.pylintrc klein_config/*
 
 pytest:
   stage: test
