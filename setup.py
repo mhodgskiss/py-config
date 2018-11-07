@@ -14,6 +14,7 @@ setup(name='klein_config',
       license='MIT',
       packages=['klein_config'],
       install_requires=[
-          'argparse'
+          'argparse',
+          'pyyaml'
       ],
       zip_safe=True)

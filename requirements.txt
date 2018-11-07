@@ -1,0 +1,4 @@
+pyyaml
+pytest
+pylint
+mock
