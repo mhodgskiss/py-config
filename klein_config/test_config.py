@@ -1,6 +1,6 @@
+import os
 import mock
 import pytest
-import os
 from .config import EnvironmentAwareConfig
 
 initial_config = dict()
