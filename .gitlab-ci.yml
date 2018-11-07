@@ -17,7 +17,7 @@ stages:
 lint:
   stage: test
   script:
-    - pylint klein_config/*
+    - pylint --rcfile=./pylintrc klein_config/*
 
 pytest:
   stage: test
