@@ -6,7 +6,7 @@ def readme():
         return f.read()
 
 setup(name='klein_config',
-      version='1.0',
+      version='1.0.1',
       description='Configuration detection from the command line',
       url='http://gitlab.mdcatapult.io/informatics/klein/klein-config',
       author='Matt Cockayne',
