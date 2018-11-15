@@ -45,11 +45,16 @@ class EnvironmentAwareConfig(dict):
         return traverse(self.__dict__, key.split('.'), key)        
 
 
-    def get(self, key):
+    def get(self, key, default=None):
         env_key = _env_key(key)
         if env_key in os.environ:
             return os.getenv(env_key)
-        return self._get_from_config(key)
+        try: 
+            return self._get_from_config(key)
+        except LookupError as err:
+            if default is not None:
+                return default
+            raise err
 
     def has(self, key): 
         env_key = _env_key(key)
