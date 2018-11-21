@@ -2,3 +2,4 @@ pyyaml
 pytest
 pylint
 mock
+klein_util
