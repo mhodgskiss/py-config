@@ -15,6 +15,7 @@ setup(name='klein_config',
       packages=['klein_config'],
       install_requires=[
           'argparse',
-          'pyyaml'
+          'pyyaml',
+          'klein_util'
       ],
       zip_safe=True)

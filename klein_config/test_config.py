@@ -10,7 +10,8 @@ initial_config["level1"]["level2"] = dict()
 initial_config["level1"]["level2"]["key"] = "value"
 config = EnvironmentAwareConfig(initial_config)
 
-@mock.patch.dict(os.environ,{'ENV_KEY':'env_value'})
+
+@mock.patch.dict(os.environ, {'ENV_KEY': 'env_value'})
 def test_for_valid_environment_key_with_dot_notation():
     assert config.get("env.key") == "env_value"
 
