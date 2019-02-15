@@ -1,0 +1,4 @@
+klein_config
+psycopg2-binary
+pylint
+pytest
