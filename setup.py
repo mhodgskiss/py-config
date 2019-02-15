@@ -16,6 +16,7 @@ setup(name='klein_postgres',
       package_dir={'':'src'},
       install_requires=[
           'klein_config',
+          'klein_util',
           'psycopg2-binary'
       ],
       zip_safe=True)

@@ -49,4 +49,4 @@ def connect(conn_conf= None):
     
 connection_params = params()
 connection = connect()
-cursor = connection.cursor()
+cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)

@@ -19,10 +19,6 @@ lint:
   script:
     - pylint --rcfile=.pylintrc src
 
-test:
-  stage: test
-  script:
-    - python -m pytest
 
 publish-unstable:
   stage: publish

@@ -1,4 +1,5 @@
 klein_config
+klein_util
 psycopg2-binary
 pylint
 pytest
