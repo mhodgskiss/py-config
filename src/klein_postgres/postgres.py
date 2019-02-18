@@ -52,4 +52,4 @@ def connect(**kwargs):
     
 connection_params = params()
 connection = connect()
-cursor = connection.cursor(cursor_factory=DictCursor)
+cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
