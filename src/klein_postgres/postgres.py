@@ -19,10 +19,10 @@ def params(**kwargs):
         p["database"] = config.get('postgres.database')
 
     if config.has('postgres.host'):
-        p["host"] = config.get('postgres.host')
+        p["host"] = config.get('postgres.host', "127.0.0.1")
 
     if config.has('postgres.port'):
-        p["port"] = config.get('postgres.port')
+        p["port"] = config.get('postgres.port', "5432")
 
     for key, value in kwargs:
         p[key] = value
