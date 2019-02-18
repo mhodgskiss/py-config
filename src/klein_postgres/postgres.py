@@ -45,6 +45,8 @@ def connect(conn_conf= None):
     :param config: dict of parameters to refresh the connection with (optional)
     :return psycopg.connection
     '''
+    if not conn_conf:
+        conn_conf = {}
     return psycopg2.connect(params(**conn_conf))
     
 connection_params = params()
