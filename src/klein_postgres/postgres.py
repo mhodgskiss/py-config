@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from klein_config import config
 import psycopg2
+import psycopg2.extras
 
 def params(**kwargs):
     '''
@@ -24,12 +25,12 @@ def params(**kwargs):
     if config.has('postgres.port'):
         p["port"] = config.get('postgres.port', "5432")
 
-    for key, value in kwargs:
+    for key, value in kwargs.items():
         p[key] = value
 
     return p
 
-def refresh(conn_conf = None):
+def refresh(**kwargs):
     '''
     refresh the connection
     :param config: dict of parameters to refresh the connection with (optional)
@@ -37,18 +38,18 @@ def refresh(conn_conf = None):
     '''
     if connection: 
         connection.close()
-    connect(conn_conf)
+    connect(**kwargs)
 
-def connect(conn_conf= None):
+def connect(**kwargs):
     '''
     connect to database
     :param config: dict of parameters to refresh the connection with (optional)
     :return psycopg.connection
     '''
-    if not conn_conf:
-        conn_conf = {}
-    return psycopg2.connect(params(**conn_conf))
+    if not kwargs:
+        kwargs = {}
+    return psycopg2.connect(**params(**kwargs))
     
 connection_params = params()
 connection = connect()
-cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+cursor = connection.cursor(cursor_factory=DictCursor)

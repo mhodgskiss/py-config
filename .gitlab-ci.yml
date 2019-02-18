@@ -19,6 +19,10 @@ lint:
   script:
     - pylint --rcfile=.pylintrc src
 
+# test:
+#   stage: test
+#   script:
+#     - ./test.sh
 
 publish-unstable:
   stage: publish
@@ -34,7 +38,7 @@ publish-stable:
   stage: publish
   script:
     - pip install devpi-client
-    - devpi use http://13.0.1.67
+    - devpi use http://13.0.1.67  
     - devpi login "gitlab-ci-token" --password "$CI_BUILD_TOKEN"
     - devpi use "mdc/stable"
     - python setup.py sdist bdist_wheel

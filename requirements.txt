@@ -3,3 +3,6 @@ klein_util
 psycopg2-binary
 pylint
 pytest
+pytest-cov
+coverage
+mock
