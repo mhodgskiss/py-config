@@ -4,5 +4,6 @@ psycopg2-binary
 pylint
 pytest
 pytest-cov
+pytest-capturelog
 coverage
 mock

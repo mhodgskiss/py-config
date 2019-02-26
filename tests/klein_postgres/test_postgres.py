@@ -2,6 +2,8 @@ import json
 import os
 import pytest
 from mock import mock
+import argparse
+import logging
 
 dummyConfig = {
     'POSTGRES_HOST': '127.0.0.1', 
@@ -48,4 +50,13 @@ class TestPostgres(object):
         from src.klein_postgres.postgres import connect
         connect(database="postgres")
         
+    @mock.patch('argparse.ArgumentParser.parse_known_args',return_value=(argparse.Namespace(debug=True), argparse.Namespace()))
+    def test_connect_with_logging_connection(self, args, caplog):
+        caplog.set_level(logging.DEBUG)
+        from src.klein_postgres.postgres import connect
+        conn = connect()
+        query = b"CREATE TABLE loggingTest (id serial primary key);"
+        conn.cursor().execute(query)
+        msg = caplog.records[0].msg
+        assert (query == msg)
         

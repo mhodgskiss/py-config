@@ -2,6 +2,17 @@
 from klein_config import config
 import psycopg2
 import psycopg2.extras
+from psycopg2.extras import LoggingConnection
+import argparse
+import logging
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--debug", help="enable debug", action="store_true")
+
+def is_debug():
+    ARGS, UNKNOWN = parser.parse_known_args()
+    return ARGS.debug
+
 
 def params(**kwargs):
     '''
@@ -38,7 +49,7 @@ def refresh(**kwargs):
     '''
     if connection: 
         connection.close()
-    connect(**kwargs)
+    return connect(**kwargs)
 
 def connect(**kwargs):
     '''
@@ -48,7 +59,19 @@ def connect(**kwargs):
     '''
     if not kwargs:
         kwargs = {}
-    return psycopg2.connect(**params(**kwargs))
+
+    conn = None
+    p = params(**kwargs)
+    if is_debug():
+        logging.basicConfig(level=logging.DEBUG)
+        logger = logging.getLogger(__name__)
+        p["connection_factory"] = LoggingConnection
+        conn = psycopg2.connect(**p)
+        conn.initialize(logger)
+    else:
+        conn = psycopg2.connect(**p) 
+
+    return conn
     
 connection_params = params()
 connection = connect()
