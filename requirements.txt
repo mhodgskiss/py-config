@@ -1,5 +1,6 @@
 pyyaml
 pytest
+pytest-cov
 pylint
 mock
 klein_util
