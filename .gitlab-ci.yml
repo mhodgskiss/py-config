@@ -1,6 +1,6 @@
 image: python:latest
 variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
 cache:
   paths:
@@ -12,36 +12,34 @@ stages:
   - publish
 
 before_script:
-  - pip install -r requirements.txt --trusted-host=13.0.1.67 --extra-index-url=http://13.0.1.67/mdc/stable 
+  - >
+    pip install -r requirements.txt --trusted-host=nexus.mdcatapult.io 
+    --index=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/pypi 
+    --index-url=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/simple
 
 lint:
   stage: test
   script:
     - pylint --rcfile=.pylintrc src
 
+# needs mocking of posgrea or setup of docker container for testing
 # test:
 #   stage: test
 #   script:
-#     - ./test.sh
-
-publish-unstable:
-  stage: publish
-  script:
-    - pip install devpi-client
-    - devpi use http://13.0.1.67
-    - devpi login "gitlab-ci-token" --password "$CI_BUILD_TOKEN"
-    - devpi use "mdc/unstable"
-    - python setup.py sdist bdist_wheel
-    - devpi upload --formats sdist,bdist_wheel
+#     - python -m pytest
 
 publish-stable:
   stage: publish
   script:
-    - pip install devpi-client
-    - devpi use http://13.0.1.67  
-    - devpi login "gitlab-ci-token" --password "$CI_BUILD_TOKEN"
-    - devpi use "mdc/stable"
     - python setup.py sdist bdist_wheel
-    - devpi upload --formats sdist,bdist_wheel
+    - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-stable/ dist/*
   only:
+    - master
+
+publish-unstable:
+  stage: publish
+  script:
+    - python setup.py egg_info -b.build-$CI_JOB_ID sdist bdist_wheel
+    - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-unstable/ dist/*
+  except:
     - master
