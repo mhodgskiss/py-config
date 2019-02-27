@@ -31,7 +31,7 @@ publish-stable:
   stage: publish
   script:
     - python setup.py sdist bdist_wheel
-    - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD--repository-url https://nexus.mdcatapult.io/repository/pypi-stable/ dist/*
+    - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-stable/ dist/*
   only:
     - master
 
