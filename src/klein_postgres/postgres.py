@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-from klein_config import config
+import argparse
+import logging
 import psycopg2
 import psycopg2.extras
 from psycopg2.extras import LoggingConnection
-import argparse
-import logging
+
+from klein_config import config
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--debug", help="enable debug", action="store_true")
 
 def is_debug():
-    ARGS, UNKNOWN = parser.parse_known_args()
+    ARGS, _ = parser.parse_known_args()
     return ARGS.debug
 
 
