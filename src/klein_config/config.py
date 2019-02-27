@@ -26,11 +26,11 @@ class EnvironmentAwareConfig(dict):
 
         self.__dict__ = dict()
         if ARGS.common:
-            self.__dict__.update(load_file(args.config))
+            self.__dict__.update(load_file(ARGS.config))
         if initial:
             self.__dict__.update(initial)
         if ARGS.config:
-            self.__dict__.update(load_file(args.config))
+            self.__dict__.update(load_file(ARGS.config))
         super().__init__()
 
     def _get_from_config(self, key):
