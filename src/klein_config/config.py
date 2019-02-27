@@ -8,11 +8,9 @@ import yaml
 from klein_util.dict import traverse_dict
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--config",
-    help="consumer specific configuration file (YAML)")
+parser.add_argument("--config",help="consumer specific configuration file (YAML)")
 parser.add_argument("--common", help="common configuration (YAML)")
-args, unknown = parser.parse_known_args()
+ARGS, UNKNOWN = parser.parse_known_args()
 
 
 def _env_key(key):
@@ -27,12 +25,12 @@ class EnvironmentAwareConfig(dict):
                 return yaml.load(ymlfile)
 
         self.__dict__ = dict()
-        if args.common:
-            self.__dict__.update(load_file(args.config))
+        if ARGS.common:
+            self.__dict__.update(load_file(ARGS.config))
         if initial:
             self.__dict__.update(initial)
-        if args.config:
-            self.__dict__.update(load_file(args.config))
+        if ARGS.config:
+            self.__dict__.update(load_file(ARGS.config))
         super().__init__()
 
     def _get_from_config(self, key):
@@ -53,11 +51,8 @@ class EnvironmentAwareConfig(dict):
             raise err
 
     def has(self, key):
-        env_key = _env_key(key)
-        if env_key in os.environ:
-            return True
         try:
-            traverse(self.__dict__, key.split('.'), key)
+            self.get(key)
             return True
         except LookupError:
             return False
