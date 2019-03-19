@@ -22,7 +22,7 @@ class EnvironmentAwareConfig(dict):
     def __init__(self, initial=None):
         def load_file(path):
             with open(path, 'r') as ymlfile:
-                return yaml.load(ymlfile)
+                return yaml.load(ymlfile, Loader=yaml.FullLoader)
 
         self.__dict__ = dict()
         if ARGS.common:
