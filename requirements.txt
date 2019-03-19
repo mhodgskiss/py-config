@@ -1,4 +1,5 @@
 pyyaml
+pyhocon
 pytest
 pytest-cov
 pylint

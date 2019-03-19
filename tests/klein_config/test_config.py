@@ -2,6 +2,7 @@ import os
 import mock
 import pytest
 from src.klein_config.config import EnvironmentAwareConfig
+from pyhocon.exceptions import ConfigMissingException
 
 initial_config = dict()
 initial_config["key"] = "value"
@@ -16,7 +17,7 @@ def test_for_valid_environment_key_with_dot_notation():
     assert config.get("env.key") == "env_value"
 
 def test_for_invalid_key():
-    with pytest.raises(LookupError):
+    with pytest.raises(ConfigMissingException):
         config.get("bad.key")
 
 

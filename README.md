@@ -1,6 +1,6 @@
 # Klein Config
 
-Module to detect cli argument for file based configuration and generate config object from a yaml file
+Module to provide config management
 
 ## Usage
 
@@ -12,7 +12,7 @@ config.get("my.config.setting", "default value")
 
 ## Structure
 
-Internally the config object uses nested dicts. This can be traversed easily with the get method using dot notation as outlined above.
+Internally the config object uses the ConfigTree structure that is part of pyhocon. This can be traversed easily with the get method using dot notation as outlined above.
 
 ## Argparse
 
@@ -33,6 +33,8 @@ The configs are applied to the config object as follows:
 2nd: Config that is injected via the Class constructor
 3rd: Config that is identified via the argument `--config`
 
+Configs will override any previous values as they are applied
+
 ## Environment Aware
 
 The module is "Environment Aware" this means that it will test for envrionments variables first. If a valid variable exists then this will be used regardless of any config that may have been supplied
@@ -43,6 +45,14 @@ This only takes place when using the `get` method using a  dot notated path. The
 my.config.setting => MY_CONFIG_SETTING
 ```
 
+## Changelog
+
+### 2.0.0
+
+* implements ability to load JSON and HOCON config structures
+* moves argparsing into EnvironmentAwareConfig Object
+* converts internal nested dicts into ConfigTree structures
+* reduces exposed API of for the EnvironmentAwareConfig
 
 
 

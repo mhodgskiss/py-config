@@ -1,0 +1,12 @@
+[
+  "tests/klein_config/test_config.py::test_for_valid_environment_key_with_dot_notation",
+  "tests/klein_config/test_config.py::test_for_invalid_key",
+  "tests/klein_config/test_config.py::test_for_valid_nested_config_level",
+  "tests/klein_config/test_config.py::test_for_valid_has",
+  "tests/klein_config/test_config.py::test_for_invalid_has",
+  "tests/klein_config/test_config.py::test_for_default_value_on_invalid_key",
+  "tests/klein_config/test_config_files.py::TestConfigWithFiles::test_with_yaml_file",
+  "tests/klein_config/test_config_files.py::TestConfigWithFiles::test_with_json_file",
+  "tests/klein_config/test_config_files.py::TestConfigWithFiles::test_with_hocon_file",
+  "tests/klein_config/test_config_files.py::TestConfigWithFiles::test_with_hocon_files_config_and_common"
+]
