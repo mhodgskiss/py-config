@@ -8,7 +8,7 @@ def readme():
 
 
 setup(name='klein_config',
-      version='2.0.0',
+      version='2.0.1',
       description='Configuration detection from the command line',
       url='http://gitlab.mdcatapult.io/informatics/klein/klein-config',
       author='Matt Cockayne',
