@@ -15,7 +15,7 @@ class EnvironmentAwareConfig(dict):
     Config object to allow use of both YAML and HOCON formats
     '''
 
-    def __init__(self, initial=dict()):
+    def __init__(self, initial=None):
         '''
         Initialise Config object by building config from 
         '''
