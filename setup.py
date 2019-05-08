@@ -18,7 +18,7 @@ setup(name='klein_config',
       package_dir={'':'src'},
       install_requires=[
           'argparse',
-          'pyyaml',
+          'pyyaml>=5.1',
           'pyhocon',
           'klein_util'
       ],
