@@ -64,7 +64,7 @@ def connect(**kwargs):
     conn = None
     p = params(**kwargs)
 
-    if not params:
+    if not p:
         return None
     
     if is_debug():
