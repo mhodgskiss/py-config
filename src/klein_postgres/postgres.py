@@ -63,6 +63,10 @@ def connect(**kwargs):
 
     conn = None
     p = params(**kwargs)
+
+    if not params:
+        return None
+    
     if is_debug():
         logging.basicConfig(level=logging.DEBUG)
         logger = logging.getLogger(__name__)
@@ -76,4 +80,5 @@ def connect(**kwargs):
     
 connection_params = params()
 connection = connect()
-cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor) if connection else None

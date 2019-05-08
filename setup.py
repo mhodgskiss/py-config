@@ -6,7 +6,7 @@ def readme():
         return f.read()
 
 setup(name='klein_postgres',
-      version='0.0.2',
+      version='0.0.3',
       description='PostgreSQL integration',
       url='http://gitlab.mdcatapult.io/informatics/klein/klein_postgres',
       author='Matt Cockayne',
