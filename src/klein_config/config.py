@@ -15,7 +15,7 @@ class EnvironmentAwareConfig(dict):
     Config object to allow use of both YAML and HOCON formats
     '''
 
-    def __init__(self, initial=None):
+    def __init__(self, initial=dict()):
         '''
         Initialise Config object by building config from 
         '''
@@ -32,12 +32,15 @@ class EnvironmentAwareConfig(dict):
                 return ConfigFactory.parse_file(path)
 
         def apply(param):
-            if param:
-                c = ConfigFactory.from_dict(param) if (isinstance(param, dict)) else load_file(param)
-                if any(self.__dict__):
-                    self.__dict__ = ConfigTree.merge_configs(self.__dict__, load_file(args.common))
-                else:
-                    self.__dict__ = c
+            if not param:
+                param = dict()
+
+            c = ConfigFactory.from_dict(param) if (isinstance(param, dict)) else load_file(param)
+
+            if any(self.__dict__):
+                self.__dict__ = ConfigTree.merge_configs(self.__dict__, c)
+            else:
+                self.__dict__ = c
 
         self.__dict__ = dict()
         apply(args.common)

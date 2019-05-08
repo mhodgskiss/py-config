@@ -1,5 +1,0 @@
-{
-  "tests/klein_config/test_config_files.py::TestConfigWithFiles::test_with_yaml_file[params0]": true,
-  "tests/klein_config/test_config_files.py::TestConfigWithFiles::test_with_yaml_file[params1]": true,
-  "tests/klein_config/test_config_files.py::TestConfigWithFiles::test_with_yaml_file[params2]": true
-}

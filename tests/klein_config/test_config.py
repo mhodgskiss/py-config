@@ -11,7 +11,6 @@ initial_config["level1"]["level2"] = dict()
 initial_config["level1"]["level2"]["key"] = "value"
 config = EnvironmentAwareConfig(initial_config)
 
-
 @mock.patch.dict(os.environ, {'ENV_KEY': 'env_value'})
 def test_for_valid_environment_key_with_dot_notation():
     assert config.get("env.key") == "env_value"
@@ -29,6 +28,10 @@ def test_for_valid_has():
 
 def test_for_invalid_has():
     assert not config.has("bad.key")
+
+def test_for_invalid_has_no_initial_state():
+    empty_config = EnvironmentAwareConfig()
+    assert not empty_config.has("bad.key.no.init")
 
 def test_for_default_value_on_invalid_key():
     assert config.get("bad.key", "default") == "default"
