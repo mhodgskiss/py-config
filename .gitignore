@@ -13,3 +13,5 @@ pytest_cache*
 
 /htmlcov
 /.coverage
+
+.idea

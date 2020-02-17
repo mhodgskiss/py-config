@@ -1,4 +1,3 @@
-import json
 import os
 import pytest
 from mock import mock
@@ -19,7 +18,7 @@ dummyConfig = {
 class TestPostgres(object):
 
     def test_params(self):
-        from src.klein_postgres.postgres import params
+        from src.klein_postgres.connect import params
         p = params()
         assert p == dict(
             database="test", 
@@ -30,7 +29,7 @@ class TestPostgres(object):
         )  
 
     def test_params_with_custom_values(self):
-        from src.klein_postgres.postgres import params
+        from src.klein_postgres.connect import params
         tmp_params = dict(
             database="tmp_db", 
             user="tmp_username",
@@ -45,12 +44,11 @@ class TestPostgres(object):
         from src.klein_postgres.postgres import connect
         connect()
 
-
     def test_connect_with_custom_params(self):
         from src.klein_postgres.postgres import connect
         connect(database="postgres")
         
-    @mock.patch('argparse.ArgumentParser.parse_known_args',return_value=(argparse.Namespace(debug=True), argparse.Namespace()))
+    @mock.patch('argparse.ArgumentParser.parse_known_args',return_value=(argparse.Namespace(debug=True, config=None, common=None), argparse.Namespace()))
     def test_connect_with_logging_connection(self, args, caplog):
         caplog.set_level(logging.DEBUG)
         from src.klein_postgres.postgres import connect
