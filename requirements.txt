@@ -4,3 +4,4 @@ pytest
 pytest-cov
 pylint
 mock
+twine
