@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 Environment aware config module to auto detect and manage both injected and Environment variable config
-'''
+"""
 import os
 import argparse
 import pathlib
@@ -10,26 +10,27 @@ import yaml
 from pyhocon import ConfigFactory, ConfigTree
 from pyhocon.exceptions import ConfigMissingException
 
+
 class EnvironmentAwareConfig(dict):
-    '''
+    """
     Config object to allow use of both YAML and HOCON formats
-    '''
+    """
 
     def __init__(self, initial=None):
-        '''
-        Initialise Config object by building config from 
-        '''
+        """
+        Initialise Config object by building config from
+        """
         args = EnvironmentAwareConfig.parse_args()
 
         def load_file(path):
-                if pathlib.Path(path).suffix in [".yml", ".yaml"]:
-                    with open(path, 'r') as f:
-                        return ConfigFactory.from_dict(yaml.load(f, Loader=yaml.FullLoader))
-                
-                if pathlib.Path(path).suffix in [".json", ".js"]:
-                    with open(path, 'r') as f:
-                        return ConfigFactory.from_dict(json.load(f))
-                return ConfigFactory.parse_file(path)
+            if pathlib.Path(path).suffix in [".yml", ".yaml"]:
+                with open(path, 'r') as f:
+                    return ConfigFactory.from_dict(yaml.load(f, Loader=yaml.FullLoader))
+
+            if pathlib.Path(path).suffix in [".json", ".js"]:
+                with open(path, 'r') as f:
+                    return ConfigFactory.from_dict(json.load(f))
+            return ConfigFactory.parse_file(path)
 
         def apply(param):
             if not param:
@@ -52,16 +53,16 @@ class EnvironmentAwareConfig(dict):
     @staticmethod
     def parse_args():
         parser = argparse.ArgumentParser()
-        parser.add_argument("--config",help="consumer specific configuration file (YAML)")
+        parser.add_argument("--config", help="consumer specific configuration file (YAML)")
         parser.add_argument("--common", help="common configuration (YAML)")
-        args , _ = parser.parse_known_args()
+        args, _ = parser.parse_known_args()
         return args
 
     @staticmethod
     def _env_key(key):
         return key.upper().replace(".", "_")
 
-    def get(self, key, default=None):       
+    def get(self, key, default=None):
         env_key = EnvironmentAwareConfig._env_key(key)
         if env_key in os.environ:
             return os.getenv(env_key)
@@ -78,7 +79,6 @@ class EnvironmentAwareConfig(dict):
             return True
         except ConfigMissingException:
             return False
-            
 
 
 config = EnvironmentAwareConfig()
