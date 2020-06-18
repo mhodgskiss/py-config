@@ -77,7 +77,6 @@ pip install -r requirements.txt
 
 ### Testing
 ```bash
-docker-compose up
 python -m pytest
 ```
 For test coverage you can run:
