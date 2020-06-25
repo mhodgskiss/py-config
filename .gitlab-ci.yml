@@ -27,7 +27,7 @@ lint:
     - pylint --rcfile=.pylintrc src
   except:
     refs:
-      - task/1233/rewrite-ci
+      - master
     variables:
       - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
@@ -40,7 +40,7 @@ test:
   coverage: '/TOTAL.*\s+(\d+%)$/'
   except:
     refs:
-      - task/1233/rewrite-ci
+      - master
     variables:
       - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
@@ -66,7 +66,7 @@ publish-unstable:
     - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-unstable/ dist/*
   except:
     refs:
-      - task/1233/rewrite-ci
+      - master
     variables:
       - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
@@ -78,7 +78,7 @@ release:
   script:
     - /scripts/release.sh src --commits
   only:
-    - task/1233/rewrite-ci
+    - master
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
