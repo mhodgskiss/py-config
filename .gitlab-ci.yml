@@ -56,7 +56,7 @@ publish-unstable:
     - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-unstable/ dist/*
   except:
     refs:
-      - master
+      - task/1233/rewrite-ci
     variables:
       - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
@@ -68,7 +68,7 @@ release:
   script:
     - /scripts/release.sh
   only:
-    - master
+    - task/1233/rewrite-ci
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
