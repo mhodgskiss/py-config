@@ -75,6 +75,8 @@ release:
   image: registry.mdcatapult.io/informatics/software-engineering/ci:python
   tags:
     - wopr
+  before_script:
+    - ''
   script:
     - /scripts/release.sh src --commits
   only:
