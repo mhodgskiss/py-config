@@ -25,6 +25,11 @@ lint:
     - wopr
   script:
     - pylint --rcfile=.pylintrc src
+  except:
+    refs:
+      - task/1233/rewrite-ci
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
 test:
   stage: test
@@ -33,6 +38,11 @@ test:
   script:
     - python -m pytest --cov-report term:skip-covered --cov src/ tests/
   coverage: '/TOTAL.*\s+(\d+%)$/'
+  except:
+    refs:
+      - task/1233/rewrite-ci
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
 publish-stable:
   stage: publish
