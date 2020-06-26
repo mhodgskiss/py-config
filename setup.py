@@ -23,6 +23,7 @@ setup(name='klein_config',
       package_dir={'': 'src'},
       install_requires=[
           'pyyaml>=5.1',
-          'pyhocon'
+          'pyhocon',
+          'argparse'
       ],
       zip_safe=True)
