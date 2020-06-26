@@ -72,7 +72,7 @@ publish-unstable:
 
 release:
   stage: release
-  image: registry.mdcatapult.io/informatics/software-engineering/ci:python
+  image: registry.mdcatapult.io/informatics/docker-images/ci:python
   tags:
     - wopr
   before_script:
