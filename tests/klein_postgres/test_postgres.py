@@ -1,17 +1,17 @@
 import os
-import pytest
 from mock import mock
 import argparse
 import logging
 
+host = os.environ.get('POSTGRES_HOST')
+
 dummyConfig = {
-    'POSTGRES_HOST': '127.0.0.1', 
+    'POSTGRES_HOST': host,
     'POSTGRES_PORT': '5432', 
     'POSTGRES_DATABASE': 'test',
     'POSTGRES_USERNAME': 'postgres',
     'POSTGRES_PASSWORD': 'password'
-
-    }
+}
 
 
 @mock.patch.dict(os.environ, dummyConfig)
@@ -24,7 +24,7 @@ class TestPostgres(object):
             database="test", 
             user="postgres",
             password="password",
-            host="127.0.0.1",
+            host=host,
             port="5432"
         )  
 
@@ -57,4 +57,3 @@ class TestPostgres(object):
         conn.cursor().execute(query)
         msg = caplog.records[0].msg
         assert (query == msg)
-        
