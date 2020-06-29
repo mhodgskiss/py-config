@@ -15,3 +15,5 @@ pytest_cache*
 /.coverage
 
 .idea
+
+.cache
