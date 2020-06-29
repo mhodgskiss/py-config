@@ -4,6 +4,8 @@ import argparse
 import logging
 
 host = os.environ.get('POSTGRES_HOST')
+if host is None:
+    host = 'localhost'
 
 dummyConfig = {
     'POSTGRES_HOST': host,
