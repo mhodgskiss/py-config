@@ -4,6 +4,9 @@ services:
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  POSTGRES_DB: test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
 
 cache:
   paths:
@@ -42,9 +45,6 @@ test:
     -  python -m pytest --cov-report term --cov src/ tests/
   coverage: '/TOTAL.*\s+(\d+%)$/'
   variables:
-    POSTGRES_DB: test
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: password
     POSTGRES_HOST: postgres
   except:
     refs:
