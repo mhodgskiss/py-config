@@ -1,45 +1,93 @@
-image: python:latest
+services:
+  - name: postgres:latest
+    alias: postgres
+
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  POSTGRES_DB: test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
 
 cache:
   paths:
     - .cache/pip
-    - venv/
 
 stages: 
   - test
+  - release
   - publish
 
-before_script:
-  - >
-    pip install -r requirements.txt --trusted-host=nexus.mdcatapult.io 
-    --index=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/pypi 
-    --index-url=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/simple
+default:
+  image: registry.mdcatapult.io/informatics/docker-images/ci:python
+  before_script:
+    - >
+      pip install -r requirements.txt --trusted-host=nexus.mdcatapult.io
+      --index=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/pypi
+      --index-url=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/simple
 
 lint:
   stage: test
+  tags:
+    - wopr
   script:
     - pylint --rcfile=.pylintrc src
+  except:
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
-# needs mocking of posgrea or setup of docker container for testing
-# test:
-#   stage: test
-#   script:
-#     - python -m pytest
+test:
+  stage: test
+  tags:
+    - wopr
+  script:
+    -  python -m pytest --cov-report term --cov src/ tests/
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  variables:
+    POSTGRES_HOST: postgres
+  except:
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
 publish-stable:
   stage: publish
+  tags:
+    - wopr
   script:
     - python setup.py sdist bdist_wheel
     - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-stable/ dist/*
   only:
-    - master
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
 publish-unstable:
   stage: publish
+  tags:
+    - wopr
   script:
-    - python setup.py egg_info -b.build-$CI_JOB_ID sdist bdist_wheel
+    - python setup.py sdist bdist_wheel
     - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-unstable/ dist/*
   except:
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
+
+release:
+  stage: release
+  tags:
+    - wopr
+  before_script:
+    - ''
+  script:
+    - /scripts/release.sh src --commits
+  only:
     - master
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
