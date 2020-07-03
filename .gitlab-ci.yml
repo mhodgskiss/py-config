@@ -46,11 +46,6 @@ test:
   coverage: '/TOTAL.*\s+(\d+%)$/'
   variables:
     POSTGRES_HOST: postgres
-  except:
-    refs:
-      - master
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
 publish-stable:
   stage: publish
