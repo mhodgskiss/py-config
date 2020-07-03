@@ -38,11 +38,6 @@ test:
   script:
     - python -m pytest --cov-report term:skip-covered --cov src/ tests/
   coverage: '/TOTAL.*\s+(\d+%)$/'
-  except:
-    refs:
-      - master
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /^Setting version to.*/
 
 publish-stable:
   stage: publish
