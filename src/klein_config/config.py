@@ -80,8 +80,8 @@ class EnvironmentAwareConfig(ConfigTree):
     def __getitem__(self, item):
         try:
             return self.get(item)
-        except ConfigMissingException:
-            raise KeyError(item)
+        except ConfigMissingException as err:
+            raise KeyError(item) from err
 
     def has(self, key):
         try:
