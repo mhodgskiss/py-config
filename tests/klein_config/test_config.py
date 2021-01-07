@@ -15,15 +15,19 @@ config = EnvironmentAwareConfig(initial_config)
 @mock.patch.dict(os.environ, {'ENV_KEY': 'env_value'})
 def test_for_valid_environment_key_with_dot_notation():
     assert config.get("env.key") == "env_value"
+    assert config["env.key"] == "env_value"
 
 
 def test_for_invalid_key():
     with pytest.raises(ConfigMissingException):
         config.get("bad.key")
+    with pytest.raises(KeyError):
+        config["bad.key"]
 
 
 def test_for_valid_nested_config_level():
     assert config.get("level1.level2.key") == "value"
+    assert config["level1.level2.key"] == "value"
 
 
 def test_for_valid_has():
