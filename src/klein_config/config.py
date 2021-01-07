@@ -21,7 +21,9 @@ def parse_args():
 
 def get_config(initial=None):
     args = parse_args()
-    conf = EnvironmentAwareConfig(filepath=args.common, initial=initial)
+    conf = EnvironmentAwareConfig(filepath=args.common)
+    if isinstance(initial, dict):
+        ConfigTree.merge_configs(conf, ConfigTree(initial))
     return EnvironmentAwareConfig(filepath=args.config, initial=conf)
 
 
