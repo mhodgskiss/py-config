@@ -3,7 +3,7 @@ import logging
 
 import psycopg2
 from psycopg2.extras import LoggingConnection
-from klein_config import config
+from klein_config import get_config
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--debug", help="enable debug", action="store_true")
@@ -16,6 +16,7 @@ def params(**kwargs):
     :param kwargs: expanded keyword arguments to build a connection with
     :return dict
     """
+    config = get_config()
     p = dict()
     if config.has('postgres.username'):
         p["user"] = config.get('postgres.username')
