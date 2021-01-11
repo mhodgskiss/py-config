@@ -12,12 +12,10 @@ stages:
   - publish
 
 default:
-  image: python:latest
+  image: registry.mdcatapult.io/informatics/docker-images/ci:python
   before_script:
-  - >
-    pip install -r requirements.txt --trusted-host=nexus.mdcatapult.io
-    --index=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/pypi
-    --index-url=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/simple
+  - pipenv install --dev
+  - pipenv shell
 
 lint:
   stage: test

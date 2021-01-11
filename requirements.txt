@@ -1,7 +1,0 @@
-pyyaml>=5.1
-pyhocon
-pytest
-pytest-cov
-pylint
-mock
-twine

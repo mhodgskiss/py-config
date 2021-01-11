@@ -45,41 +45,23 @@ This only takes place when using the `get` method using a  dot notated path. The
 my.config.setting => MY_CONFIG_SETTING
 ```
 
-## Changelog
-
-### 2.0.0
-
-* implements ability to load JSON and HOCON config structures
-* moves argparsing into EnvironmentAwareConfig Object
-* converts internal nested dicts into ConfigTree structures
-* reduces exposed API of for the EnvironmentAwareConfig
-
 
 ## Development
 
+This project uses [pipenv](https://github.com/pypa/pipenv). To install it, run `pip install pipenv`.
 
-Utilises python 3.7
-
-### Ubuntu
-
+### Development
 ```
-sudo apt install python3.7
-```
-
-## Virtualenv
-
-```
-virtualenv -p python3.7 venv
-source venv/bin/activate
-echo -e "[global]\nindex = https://nexus.mdcatapult.io/repository/pypi-all/pypi\nindex-url = https://nexus.mdcatapult.io/repository/pypi-all/simple" > venv/pip.conf
-pip install -r requirements.txt
+pipenv install
 ```
 
 ### Testing
 ```bash
+pipenv shell
 python -m pytest
 ```
 For test coverage you can run:
 ```bash
+pipenv shell
 python -m pytest --cov-report term --cov src/ tests/
 ```
