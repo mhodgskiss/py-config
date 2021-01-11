@@ -1,4 +1,4 @@
-klein_config
+klein_config>=3.0.0
 klein_util
 psycopg2-binary
 pylint
