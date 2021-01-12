@@ -38,7 +38,7 @@ args, unknown = parser.parse_known_args()
 
 You can also pass a `dict` into `get_config` function.
 
-### Order precidence
+### Order precedence
 The configs are applied to the config object as follows: 
 
 1st: Common config as identified via argument `--common`
