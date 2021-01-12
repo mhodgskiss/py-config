@@ -48,6 +48,7 @@ class TestConfigWithFiles:
         assert config["level1.level2.key"] == "value"
         nested = config["level1"]
         assert nested["level2.key"] == "value"
+        assert config["level1"]["level2"]["key"] == "value"
 
     @mock.patch('argparse.ArgumentParser.parse_known_args',
                 return_value=(argparse.Namespace(config="dummy.json", common=None), argparse.Namespace()))
@@ -60,6 +61,7 @@ class TestConfigWithFiles:
         assert config.get("level1.level2.key") == "value"
         assert config["key"] == "value"
         assert config["level1.level2.key"] == "value"
+        assert config["level1"]["level2"]["key"] == "value"
 
     @mock.patch('argparse.ArgumentParser.parse_known_args',
                 return_value=(argparse.Namespace(config="dummy.conf", common=None), argparse.Namespace()))
@@ -74,6 +76,7 @@ class TestConfigWithFiles:
         assert config["altkey"] == "substituted value"
         assert config.get("level1.level2.key") == "value"
         assert config["level1.level2.key"] == "value"
+        assert config["level1"]["level2"]["key"] == "value"
 
     @mock.patch('argparse.ArgumentParser.parse_known_args',
                 return_value=(argparse.Namespace(config="dummy.conf", common="dummy2.conf"), argparse.Namespace()))
@@ -89,6 +92,7 @@ class TestConfigWithFiles:
         assert config["altkey"] == "substituted value"
         assert config.get("level1.level2.key") == "value"
         assert config["level1.level2.key"] == "value"
+        assert config["level1"]["level2"]["key"] == "value"
 
     @mock.patch.dict(os.environ, {'LEVEL1_LEVEL2_KEY': 'env_value'})
     @mock.patch('argparse.ArgumentParser.parse_known_args',
@@ -104,3 +108,4 @@ class TestConfigWithFiles:
         assert config["level1.level2.key"] == "env_value"
         nested = config["level1"]
         assert nested["level2.key"] == "env_value"
+        assert config["level1"]["level2"]["key"] == "env_value"

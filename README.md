@@ -4,29 +4,41 @@ Module to provide config management
 
 ## Usage
 
+```python
+from klein_config import get_config
+
+# Can be overriden with env variable MY_CONFIG_SETTING
+config = get_config({"my": {"config": {"setting": "initialised value"}})
+
+# Access via `get` accessor with no backup (raises ConfigMissingException if not found).
+value = config.get("my.config.setting")
+
+# Access via `get` accessor method with a backup.
+backup_value = config.get("not.a.setting", "backup value")
+
+# Access via `dict` (raises KeyError if not found).
+same_value = config["my.config.setting"]
+
+# Sub-configs are created if the value is another `dict`.
+intermediate_config = config["my.config"]
+same_value_again = intermediate_config["setting"]
 ```
-from klein_config import config
 
-config.get("my.config.setting", "default value")
-```
-
-## Structure
-
+### Structure
 Internally the config object uses the ConfigTree structure that is part of pyhocon. This can be traversed easily with the get method using dot notation as outlined above.
 
-## Argparse
-
-The module it looks for arguments passed to the script via the command line as soon as it is imported
-
-```
+### Config Initialisation
+The `get_config` function looks for `--config` and `--common` as command line arguments:
+```python
 parser = argparse.ArgumentParser()
-parser.add_argument("--config", help="consumer specific configuration file")
+parser.add_argument("--config", help="application specific configuration file")
 parser.add_argument("--common", help="common configuration")
 args, unknown = parser.parse_known_args()
 ```
 
-## Order precidence
+You can also pass a `dict` into `get_config` function.
 
+### Order precidence
 The configs are applied to the config object as follows: 
 
 1st: Common config as identified via argument `--common`
@@ -35,51 +47,31 @@ The configs are applied to the config object as follows:
 
 Configs will override any previous values as they are applied
 
-## Environment Aware
+### Environment Aware
+The module is "Environment Aware" this means that it will test for envrionments variables first. If a valid variable exists then this will be used regardless of any config that may have been supplied.
 
-The module is "Environment Aware" this means that it will test for envrionments variables first. If a valid variable exists then this will be used regardless of any config that may have been supplied
-
-This only takes place when using the `get` method using a  dot notated path. The path is transformed by converting the string to uppercase and replacing all dots with underscores.
+The path is transformed by converting the string to uppercase and replacing all dots with underscores.
 
 ```
 my.config.setting => MY_CONFIG_SETTING
 ```
 
-## Changelog
-
-### 2.0.0
-
-* implements ability to load JSON and HOCON config structures
-* moves argparsing into EnvironmentAwareConfig Object
-* converts internal nested dicts into ConfigTree structures
-* reduces exposed API of for the EnvironmentAwareConfig
-
+Sub-config items are still overriden by the same environment variables as in the root config.
 
 ## Development
+This project uses [pipenv](https://github.com/pypa/pipenv). To install it, run `pip install pipenv`.
 
-
-Utilises python 3.7
-
-### Ubuntu
-
+### Development
 ```
-sudo apt install python3.7
-```
-
-## Virtualenv
-
-```
-virtualenv -p python3.7 venv
-source venv/bin/activate
-echo -e "[global]\nindex = https://nexus.mdcatapult.io/repository/pypi-all/pypi\nindex-url = https://nexus.mdcatapult.io/repository/pypi-all/simple" > venv/pip.conf
-pip install -r requirements.txt
+pipenv install --dev
 ```
 
 ### Testing
 ```bash
-python -m pytest
+pipenv run python -m pytest
 ```
 For test coverage you can run:
 ```bash
-python -m pytest --cov-report term --cov src/ tests/
+pipenv shell
+pipenv run python -m pytest --cov-report term --cov src/ tests/
 ```

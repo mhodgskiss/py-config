@@ -12,19 +12,16 @@ stages:
   - publish
 
 default:
-  image: python:latest
+  image: registry.mdcatapult.io/informatics/docker-images/ci:python
   before_script:
-  - >
-    pip install -r requirements.txt --trusted-host=nexus.mdcatapult.io
-    --index=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/pypi
-    --index-url=https://$NEXUS_USERNAME:$NEXUS_PASSWORD@nexus.mdcatapult.io/repository/pypi-all/simple
+  - pipenv install --dev
 
 lint:
   stage: test
   tags:
     - wopr
   script:
-    - pylint --rcfile=.pylintrc src
+    - pipenv run pylint --rcfile=.pylintrc src
   except:
     refs:
       - master
@@ -36,7 +33,7 @@ test:
   tags:
     - wopr
   script:
-    - python -m pytest --cov-report term:skip-covered --cov src/ tests/
+    - pipenv run python -m pytest --cov-report term:skip-covered --cov src/ tests/
   coverage: '/TOTAL.*\s+(\d+%)$/'
 
 publish-stable:
@@ -44,8 +41,8 @@ publish-stable:
   tags:
     - wopr
   script:
-    - python setup.py sdist bdist_wheel
-    - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-stable/ dist/*
+    - pipenv run python setup.py sdist bdist_wheel
+    - pipenv run twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-stable/ dist/*
   only:
     refs:
     - tags
@@ -57,8 +54,8 @@ publish-unstable:
   tags:
     - wopr
   script:
-    - python setup.py sdist bdist_wheel
-    - twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-unstable/ dist/*
+    - pipenv run python setup.py sdist bdist_wheel
+    - pipenv run twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-unstable/ dist/*
   except:
     refs:
       - master
