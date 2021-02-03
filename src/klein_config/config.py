@@ -11,16 +11,33 @@ from pyhocon import ConfigFactory, ConfigTree
 from pyhocon.exceptions import ConfigMissingException
 
 
-class EnvironmentAwareConfig(dict):
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", help="consumer specific configuration file (YAML)")
+    parser.add_argument("--common", help="common configuration (YAML)")
+    args, _ = parser.parse_known_args()
+    return args
+
+
+def get_config(initial=None):
+    args = parse_args()
+    conf = EnvironmentAwareConfig(filepath=args.common)
+    if isinstance(initial, dict):
+        ConfigTree.merge_configs(conf, ConfigTree(initial))
+    return EnvironmentAwareConfig(filepath=args.config, initial=conf)
+
+
+class EnvironmentAwareConfig(ConfigTree):
     """
     Config object to allow use of both YAML and HOCON formats
     """
 
-    def __init__(self, initial=None):
+    def __init__(self, filepath=None, initial=None, prefix=None):
         """
         Initialise Config object by building config from
         """
-        args = EnvironmentAwareConfig.parse_args()
+        self.prefix = prefix
+        super().__init__()
 
         def load_file(path):
             if pathlib.Path(path).suffix in [".yml", ".yaml"]:
@@ -37,41 +54,36 @@ class EnvironmentAwareConfig(dict):
                 param = dict()
 
             c = ConfigFactory.from_dict(param) if (isinstance(param, dict)) else load_file(param)
+            ConfigTree.merge_configs(self, c)
 
-            if any(self.__dict__):
-                self.__dict__ = ConfigTree.merge_configs(self.__dict__, c)
-            else:
-                self.__dict__ = c
-
-        self.__dict__ = dict()
-        apply(args.common)
         apply(initial)
-        apply(args.config)
-
-        super().__init__()
+        apply(filepath)
 
     @staticmethod
-    def parse_args():
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--config", help="consumer specific configuration file (YAML)")
-        parser.add_argument("--common", help="common configuration (YAML)")
-        args, _ = parser.parse_known_args()
-        return args
-
-    @staticmethod
-    def _env_key(key):
+    def _env_key(key, prefix=None):
+        if isinstance(prefix, str):
+            return ".".join([prefix, key]).upper().replace(".", "_")
         return key.upper().replace(".", "_")
 
     def get(self, key, default=None):
-        env_key = EnvironmentAwareConfig._env_key(key)
+        env_key = EnvironmentAwareConfig._env_key(key, self.prefix)
         if env_key in os.environ:
             return os.getenv(env_key)
         try:
-            return self.__dict__.get(key)
+            result = super().get(key)
+            if isinstance(result, dict):
+                return EnvironmentAwareConfig(initial=result, prefix=key if self.prefix is None else ".".join([self.prefix, key]))
+            return result
         except ConfigMissingException as err:
             if default is not None:
                 return default
             raise err
+
+    def __getitem__(self, item):
+        try:
+            return self.get(item)
+        except ConfigMissingException as err:
+            raise KeyError(item) from err
 
     def has(self, key):
         try:
@@ -79,6 +91,3 @@ class EnvironmentAwareConfig(dict):
             return True
         except ConfigMissingException:
             return False
-
-
-config = EnvironmentAwareConfig()
