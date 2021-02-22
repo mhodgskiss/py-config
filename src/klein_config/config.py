@@ -65,10 +65,30 @@ class EnvironmentAwareConfig(ConfigTree):
             return ".".join([prefix, key]).upper().replace(".", "_")
         return key.upper().replace(".", "_")
 
+    @staticmethod
+    def _as_type(val: str):
+        try:
+            return int(val)
+        except ValueError:
+            pass
+
+        try:
+            return float(val)
+        except ValueError:
+            pass
+
+        if val.lower() in ['true', 'yes', 'y']:
+            return True
+
+        if val.lower() in ['false', 'no', 'n']:
+            return False
+
+        return val
+
     def get(self, key, default=None):
         env_key = EnvironmentAwareConfig._env_key(key, self.prefix)
         if env_key in os.environ:
-            return os.getenv(env_key)
+            return EnvironmentAwareConfig._as_type(os.getenv(env_key))
         try:
             result = super().get(key)
             if isinstance(result, dict):
