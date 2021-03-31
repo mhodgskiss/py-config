@@ -115,7 +115,7 @@ class TestConfigWithFiles:
 
     @mock.patch.dict(os.environ, {'KLEIN_CONFIG': 'dummy.yml'})
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
-    def test_with_yaml_file(self, mock_open, mock_args):
+    def test_with_yaml_file(self, mock_open):
         from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.yml', 'r')
@@ -129,7 +129,7 @@ class TestConfigWithFiles:
 
     @mock.patch.dict(os.environ, {'KLEIN_CONFIG': 'dummy.json'})
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=jsonString)
-    def test_with_json_file(self, mock_open, mock_args):
+    def test_with_json_file(self, mock_open):
         from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.json', 'r')
