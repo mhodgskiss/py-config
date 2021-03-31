@@ -2,15 +2,15 @@
 """
 Environment aware config module to auto detect and manage both injected and Environment variable config
 """
-import os
 import argparse
-import pathlib
 import json
+import logging
+import os
+import pathlib
+
 import yaml
 from pyhocon import ConfigFactory, ConfigTree
 from pyhocon.exceptions import ConfigMissingException
-import logging
-
 
 LOGGER = logging.getLogger(__name__)
 COMMON_ENVVAR_NAME = "KLEIN_COMMON"
