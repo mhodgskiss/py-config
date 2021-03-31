@@ -9,6 +9,12 @@ import json
 import yaml
 from pyhocon import ConfigFactory, ConfigTree
 from pyhocon.exceptions import ConfigMissingException
+import logging
+
+
+LOGGER = logging.getLogger(__name__)
+COMMON_ENVVAR_NAME = "KLEIN_COMMON"
+CONFIG_ENVVAR_NAME = "KLEIN_CONFIG"
 
 
 def parse_args():
@@ -21,10 +27,28 @@ def parse_args():
 
 def get_config(initial=None):
     args = parse_args()
-    conf = EnvironmentAwareConfig(filepath=args.common)
+
+    # Handle legacy configs
+    common_from_args = args.common
+    config_from_args = args.config
+    common_from_env = os.environ.get(COMMON_ENVVAR_NAME)
+    config_from_env = os.environ.get(CONFIG_ENVVAR_NAME)
+    if common_from_args or config_from_args:
+        LOGGER.warning("Arguments --config and --common are deprecated. "
+                       "Use environmental variables %s and %s instead", COMMON_ENVVAR_NAME, CONFIG_ENVVAR_NAME)
+    if common_from_args and common_from_env:
+        LOGGER.warning("Deprecated --common arg has shadowed the %s env var. Please use the latter only. ", COMMON_ENVVAR_NAME)
+    if config_from_args and config_from_env:
+        LOGGER.warning("Deprecated --config arg has shadowed the %s env var. Please use the latter only. ", CONFIG_ENVVAR_NAME)
+    # End: Handle legacy configs
+
+    common_file = common_from_args or common_from_env
+    config_file = config_from_args or config_from_env
+
+    conf = EnvironmentAwareConfig(filepath=common_file)
     if isinstance(initial, dict):
         ConfigTree.merge_configs(conf, ConfigTree(initial))
-    return EnvironmentAwareConfig(filepath=args.config, initial=conf)
+    return EnvironmentAwareConfig(filepath=config_file, initial=conf)
 
 
 class EnvironmentAwareConfig(ConfigTree):

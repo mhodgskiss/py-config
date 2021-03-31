@@ -28,13 +28,8 @@ same_value_again = intermediate_config["setting"]
 Internally the config object uses the ConfigTree structure that is part of pyhocon. This can be traversed easily with the get method using dot notation as outlined above.
 
 ### Config Initialisation
-The `get_config` function looks for `--config` and `--common` as command line arguments:
-```python
-parser = argparse.ArgumentParser()
-parser.add_argument("--config", help="application specific configuration file")
-parser.add_argument("--common", help="common configuration")
-args, unknown = parser.parse_known_args()
-```
+The `get_config` function looks for `KLEIN_CONFIG` and `KLEIN_COMMON` as environmental variables.
+Deprecated `--config` and `--common` as command line arguments are accepted for backward compatibility. 
 
 You can also pass a `dict` into `get_config` function.
 
