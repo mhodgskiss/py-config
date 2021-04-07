@@ -17,6 +17,10 @@ COMMON_ENVVAR_NAME = "KLEIN_COMMON"
 CONFIG_ENVVAR_NAME = "KLEIN_CONFIG"
 
 
+class InvalidConfigError(Exception):
+    pass
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", help="consumer specific configuration file (YAML)")
@@ -32,12 +36,12 @@ def get_config(initial=None):
     common_from_args = args.common
     common_from_env = os.environ.get(COMMON_ENVVAR_NAME)
     if common_from_args and common_from_env:
-        raise LookupError('You should use either COMMON_ENVVAR_NAME or --common to set the common file but not both')
+        raise InvalidConfigError('You should use either COMMON_ENVVAR_NAME or --common to set the common file but not both')
 
     config_from_args = args.config
     config_from_env = os.environ.get(CONFIG_ENVVAR_NAME)
     if config_from_args and config_from_env:
-        raise LookupError(f'You should use either {CONFIG_ENVVAR_NAME} or --config to set the config file but not both')
+        raise InvalidConfigError(f'You should use either {CONFIG_ENVVAR_NAME} or --config to set the config file but not both')
     # End: Raise Exeption if both environmental variables and arguments are used
 
     common_file = common_from_args or common_from_env
