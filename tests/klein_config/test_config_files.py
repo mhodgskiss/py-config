@@ -1,4 +1,5 @@
 import mock
+import pytest
 import argparse
 import os
 
@@ -33,7 +34,7 @@ hoconString = '''
 '''
 
 
-class DeprecatedTestConfigWithFiles:
+class TestConfigWithFilesWithArgs:
 
     @mock.patch('argparse.ArgumentParser.parse_known_args',
                 return_value=(argparse.Namespace(config="dummy.yml", common=None), argparse.Namespace()))
@@ -111,7 +112,7 @@ class DeprecatedTestConfigWithFiles:
         assert config["level1"]["level2"]["key"] == "env_value"
 
 
-class TestConfigWithFiles:
+class TestConfigWithFilesWithEnvironmentalVariable:
 
     @mock.patch.dict(os.environ, {'KLEIN_CONFIG': 'dummy.yml'})
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
@@ -181,3 +182,15 @@ class TestConfigWithFiles:
         nested = config["level1"]
         assert nested["level2.key"] == "env_value"
         assert config["level1"]["level2"]["key"] == "env_value"
+
+
+class TestConfigWithFilesInvalid:
+
+    @mock.patch('argparse.ArgumentParser.parse_known_args',
+                return_value=(argparse.Namespace(config="dummy.yml", common=None), argparse.Namespace()))
+    @mock.patch.dict(os.environ, {'KLEIN_CONFIG': 'dummy.yml'})
+    @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
+    def test_with_both_arg_and_env(self, mock_open, mock_args):
+        from src.klein_config.config import get_config
+        with pytest.raises(ValueError):
+            config = get_config()

@@ -30,17 +30,15 @@ def get_config(initial=None):
 
     # Handle legacy configs
     common_from_args = args.common
-    config_from_args = args.config
     common_from_env = os.environ.get(COMMON_ENVVAR_NAME)
-    config_from_env = os.environ.get(CONFIG_ENVVAR_NAME)
-    if common_from_args or config_from_args:
-        LOGGER.warning("Arguments --config and --common are deprecated. "
-                       "Use environmental variables %s and %s instead", COMMON_ENVVAR_NAME, CONFIG_ENVVAR_NAME)
     if common_from_args and common_from_env:
-        LOGGER.warning("Deprecated --common arg has shadowed the %s env var. Please use the latter only. ", COMMON_ENVVAR_NAME)
-    if config_from_args and config_from_env:
-        LOGGER.warning("Deprecated --config arg has shadowed the %s env var. Please use the latter only. ", CONFIG_ENVVAR_NAME)
-    # End: Handle legacy configs
+        raise LookupError('You should use either COMMON_ENVVAR_NAME or --common to set the common file but not both')
+
+    config_from_args = args.config
+    config_from_env = os.environ.get(CONFIG_ENVVAR_NAME)
+    if config_from_args or config_from_args:
+        raise LookupError(f'You should use either {CONFIG_ENVVAR_NAME} or --config to set the config file but not both')
+    # End: Raise Exeption if both environmental variables and arguments are used
 
     common_file = common_from_args or common_from_env
     config_file = config_from_args or config_from_env
