@@ -28,17 +28,20 @@ same_value_again = intermediate_config["setting"]
 Internally the config object uses the ConfigTree structure that is part of pyhocon. This can be traversed easily with the get method using dot notation as outlined above.
 
 ### Config Initialisation
-The `get_config` function looks for `KLEIN_CONFIG` and `KLEIN_COMMON` as environmental variables.
-Deprecated `--config` and `--common` as command line arguments are accepted for backward compatibility. 
+The `get_config` function looks for :
+- argument `--common` or environmental variable `KLEIN_COMMON` to specify the common file; and
+- argument `--config` or environmental variable `KLEIN_CONFIG` for the config file. 
+
+However, passing both the environmental variables and the arguments for either config or common is NOT accepted as it is ambiguous what is expected.
 
 You can also pass a `dict` into `get_config` function.
 
 ### Order precedence
 The configs are applied to the config object as follows: 
 
-1st: Common config as identified via argument `--common`
+1st: Common config as identified via argument `--common` or environmental variable `KLEIN_COMMON`
 2nd: Config that is injected via the Class constructor
-3rd: Config that is identified via the argument `--config`
+3rd: Config that is identified via the argument `--config` or environmental variable `KLEIN_CONFIG`
 
 Configs will override any previous values as they are applied
 
