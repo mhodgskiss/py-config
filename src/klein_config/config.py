@@ -28,7 +28,7 @@ def parse_args():
 def get_config(initial=None):
     args = parse_args()
 
-    # Handle legacy configs
+    # Raise Exeption if both environmental variables and arguments are used
     common_from_args = args.common
     common_from_env = os.environ.get(COMMON_ENVVAR_NAME)
     if common_from_args and common_from_env:
@@ -36,7 +36,7 @@ def get_config(initial=None):
 
     config_from_args = args.config
     config_from_env = os.environ.get(CONFIG_ENVVAR_NAME)
-    if config_from_args and config_from_args:
+    if config_from_args and config_from_env:
         raise LookupError(f'You should use either {CONFIG_ENVVAR_NAME} or --config to set the config file but not both')
     # End: Raise Exeption if both environmental variables and arguments are used
 
