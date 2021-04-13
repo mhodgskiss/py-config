@@ -2,13 +2,23 @@
 """
 Environment aware config module to auto detect and manage both injected and Environment variable config
 """
-import os
 import argparse
-import pathlib
 import json
+import logging
+import os
+import pathlib
+
 import yaml
 from pyhocon import ConfigFactory, ConfigTree
 from pyhocon.exceptions import ConfigMissingException
+
+LOGGER = logging.getLogger(__name__)
+COMMON_ENVVAR_NAME = "KLEIN_COMMON"
+CONFIG_ENVVAR_NAME = "KLEIN_CONFIG"
+
+
+class InvalidConfigError(Exception):
+    pass
 
 
 def parse_args():
@@ -21,10 +31,26 @@ def parse_args():
 
 def get_config(initial=None):
     args = parse_args()
-    conf = EnvironmentAwareConfig(filepath=args.common)
+
+    # Raise Exeption if both environmental variables and arguments are used
+    common_from_args = args.common
+    common_from_env = os.environ.get(COMMON_ENVVAR_NAME)
+    if common_from_args and common_from_env:
+        raise InvalidConfigError('You should use either COMMON_ENVVAR_NAME or --common to set the common file but not both')
+
+    config_from_args = args.config
+    config_from_env = os.environ.get(CONFIG_ENVVAR_NAME)
+    if config_from_args and config_from_env:
+        raise InvalidConfigError(f'You should use either {CONFIG_ENVVAR_NAME} or --config to set the config file but not both')
+    # End: Raise Exeption if both environmental variables and arguments are used
+
+    common_file = common_from_args or common_from_env
+    config_file = config_from_args or config_from_env
+
+    conf = EnvironmentAwareConfig(filepath=common_file)
     if isinstance(initial, dict):
         ConfigTree.merge_configs(conf, ConfigTree(initial))
-    return EnvironmentAwareConfig(filepath=args.config, initial=conf)
+    return EnvironmentAwareConfig(filepath=config_file, initial=conf)
 
 
 class EnvironmentAwareConfig(ConfigTree):
