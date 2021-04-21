@@ -27,7 +27,7 @@ class TestPostgres(object):
             user="postgres",
             password="password",
             host=host,
-            port="5432"
+            port=5432
         )  
 
     def test_params_with_custom_values(self):
