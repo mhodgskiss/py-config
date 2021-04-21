@@ -42,7 +42,7 @@ publish-stable:
     - wopr
   script:
     - pipenv run python setup.py sdist bdist_wheel
-    - pipenv run twine upload --cert \"$WOPR_CRT\" -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus\.wopr\.inf\.mdc/repository/pypi-stable/ dist/*
+    - pipenv run twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-stable/ dist/*
   only:
     refs:
     - tags
@@ -55,7 +55,7 @@ publish-unstable:
     - wopr
   script:
     - pipenv run python setup.py sdist bdist_wheel
-    - pipenv run twine upload --cert \"$WOPR_CRT\" -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus\.wopr\.inf\.mdc/repository/pypi-unstable/ dist/*
+    - pipenv run twine upload -u $NEXUS_USERNAME -p $NEXUS_PASSWORD --repository-url https://nexus.mdcatapult.io/repository/pypi-unstable/ dist/*
   except:
     refs:
       - master
