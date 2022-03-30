@@ -73,3 +73,6 @@ For test coverage you can run:
 pipenv shell
 pipenv run python -m pytest --cov-report term --cov src/ tests/
 ```
+
+### License
+This project is licensed under the terms of the Apache 2 license, which can be found in the repository as `LICENSE.txt`
