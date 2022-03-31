@@ -23,7 +23,7 @@ def readme():
 
 
 __version__ = ""
-exec(open("./src/version.py").read())
+exec(open("src/klein_config/version.py").read())
 if __version__ == "":
     raise RuntimeError("unable to find application version")
 
