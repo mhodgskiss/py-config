@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pyhocon = "0.3.59"
+pyhocon = "*"
 PyYAML = ">=5.1,<6"
 
 [dev-packages]
