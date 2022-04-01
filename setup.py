@@ -37,6 +37,6 @@ setup(
     license="MIT",
     packages=find_packages("src"),
     package_dir={"": "src"},
-    install_requires=["pyhocon", "pyyaml<6,>=5.1"],
+    install_requires=["pyhocon==0.1.1", "pyyaml<6,>=5.1"],
     zip_safe=True,
 )
