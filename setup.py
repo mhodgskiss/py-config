@@ -32,11 +32,12 @@ setup(
     version=__version__,
     description="Configuration detection from the command line",
     url="http://gitlab.mdcatapult.io/informatics/klein/klein-config",
-    author="Matt Cockayne",
-    author_email="matthew.cockayne@md.catapult.org.uk",
-    license="MIT",
+    author="",
+    author_email="",
+    license="Apache V2",
     packages=find_packages("src"),
     package_dir={"": "src"},
     install_requires=["pyhocon", "pyyaml<6,>=5.1"],
     zip_safe=True,
+    include_package_data=True
 )
