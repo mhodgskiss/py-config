@@ -1,11 +1,11 @@
-# Klein Config
+# Py Config
 
 Module to provide config management
 
 ## Usage
 
 ```python
-from klein_config import get_config
+from env_aware_config import get_config
 
 # Can be overriden with env variable MY_CONFIG_SETTING
 config = get_config({"my": {"config": {"setting": "initialised value"}})
@@ -29,8 +29,8 @@ Internally the config object uses the ConfigTree structure that is part of pyhoc
 
 ### Config Initialisation
 The `get_config` function looks for :
-- argument `--common` or environmental variable `KLEIN_COMMON` to specify the common file; and
-- argument `--config` or environmental variable `KLEIN_CONFIG` for the config file. 
+- argument `--common` or environmental variable `ENV_AWARE_CONFIG_COMMON` to specify the common file; and
+- argument `--config` or environmental variable `ENV_AWARE_CONFIG_CONFIG` for the config file. 
 
 However, passing both the environmental variables and the arguments for either config or common is NOT accepted as it is ambiguous what is expected.
 
@@ -39,9 +39,9 @@ You can also pass a `dict` into `get_config` function.
 ### Order precedence
 The configs are applied to the config object as follows: 
 
-1st: Common config as identified via argument `--common` or environmental variable `KLEIN_COMMON`
+1st: Common config as identified via argument `--common` or environmental variable `ENV_AWARE_CONFIG_COMMON`
 2nd: Config that is injected via the Class constructor
-3rd: Config that is identified via the argument `--config` or environmental variable `KLEIN_CONFIG`
+3rd: Config that is identified via the argument `--config` or environmental variable `ENV_AWARE_CONFIG_CONFIG`
 
 Configs will override any previous values as they are applied
 
@@ -73,6 +73,17 @@ For test coverage you can run:
 pipenv shell
 pipenv run python -m pytest --cov-report term --cov src/ tests/
 ```
+
+### Troubleshooting
+
+If you are unable to run `pipenv shell` and are having permission errors, you can spin up a virtual environment to run 
+the `pipenv` commands a different way
+
+1. Run `pip install virtualenv` to install a virtual environment
+2. While in your projects root directory, run `virtual env venv`
+3. Then to start your virtual environment, run `source venv/bin/activate`
+4. Then run this command `pipenv install --dev` and you should now be able to run the commands above
+
 
 ### License
 This project is licensed under the terms of the Apache 2 license, which can be found in the repository as `LICENSE.txt`

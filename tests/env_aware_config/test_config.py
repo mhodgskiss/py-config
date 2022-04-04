@@ -15,7 +15,7 @@
 import os
 import mock
 import pytest
-from src.klein_config.config import EnvironmentAwareConfig
+from src.env_aware_config.config import EnvironmentAwareConfig
 from pyhocon.exceptions import ConfigMissingException
 
 initial_config = dict()
