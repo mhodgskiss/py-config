@@ -85,5 +85,9 @@ the `pipenv` commands a different way
 4. Then run this command `pipenv install --dev` and you should now be able to run the commands above
 
 
+### File Format
+
+Although we use YAML for our file format, the EnvironmentAwareConfig class will attempt to read in a .json/.js file
+
 ### License
 This project is licensed under the terms of the Apache 2 license, which can be found in the repository as `LICENSE.txt`
