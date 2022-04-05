@@ -28,12 +28,11 @@ if __version__ == "":
     raise RuntimeError("unable to find application version")
 
 setup(
-    name="klein_config",
+    name="env-aware-config",
     version=__version__,
     description="Configuration detection from the command line",
-    url="http://gitlab.mdcatapult.io/informatics/klein/klein-config",
-    author="",
-    author_email="",
+    url="https://github.com/mdcatapult/py-config",
+    author="Matthew Cockayne, Mark Laing, Gemma Holliday, Roman Ma",
     license="Apache V2",
     packages=find_packages("src"),
     package_dir={"": "src"},
