@@ -5,7 +5,7 @@ Module to provide config management
 ## Usage
 
 ```python
-from env_aware_config import get_config
+from py_env_aware_config import get_config
 
 # Can be overriden with env variable MY_CONFIG_SETTING
 config = get_config({"my": {"config": {"setting": "initialised value"}})
@@ -29,8 +29,8 @@ Internally the config object uses the ConfigTree structure that is part of pyhoc
 
 ### Config Initialisation
 The `get_config` function looks for :
-- argument `--common` or environmental variable `ENV_AWARE_COMMON` to specify a valid filepath for a common config file (in either JSON or YAML format); and
-- argument `--config` or environmental variable `ENV_AWARE_CONFIG` to specify a valid filepath for a config file 
+- argument `--common` or environmental variable `PY_ENV_AWARE_COMMON` to specify a valid filepath for a common config file (in either JSON or YAML format); and
+- argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG` to specify a valid filepath for a config file 
 
 However, passing both the environmental variables and the arguments for either config or common is NOT accepted as it is ambiguous what is expected.
 
@@ -39,9 +39,9 @@ You can also pass a `dict` into `get_config` function.
 ### Order precedence
 The configs are applied to the config object as follows: 
 
-1st: Common config as identified via argument `--common` or environmental variable `ENV_AWARE_COMMON`
+1st: Common config as identified via argument `--common` or environmental variable `PY_ENV_AWARE_COMMON`
 2nd: Config that is injected via the Class constructor
-3rd: Config that is identified via the argument `--config` or environmental variable `ENV_AWARE_CONFIG`
+3rd: Config that is identified via the argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG`
 
 Configs will override any previous values as they are applied
 
