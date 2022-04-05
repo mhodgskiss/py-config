@@ -21,14 +21,13 @@ import json
 import logging
 import os
 import pathlib
-
 import yaml
 from pyhocon import ConfigFactory, ConfigTree
 from pyhocon.exceptions import ConfigMissingException
 
 LOGGER = logging.getLogger(__name__)
-COMMON_ENVVAR_NAME = "KLEIN_COMMON"
-CONFIG_ENVVAR_NAME = "KLEIN_CONFIG"
+COMMON_ENVVAR_NAME = "ENV_AWARE_COMMON"
+CONFIG_ENVVAR_NAME = "ENV_AWARE_CONFIG"
 
 
 class InvalidConfigError(Exception):
