@@ -28,7 +28,7 @@ if __version__ == "":
     raise RuntimeError("unable to find application version")
 
 setup(
-    name="env-aware-config",
+    name="py-env-aware-config",
     version=__version__,
     description="Configuration detection from the command line",
     url="https://github.com/mdcatapult/py-config",
