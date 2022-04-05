@@ -16,7 +16,7 @@
 
 import os
 import mock
-from src.env_aware_config.config import EnvironmentAwareConfig
+from src.py_env_aware_config.config import EnvironmentAwareConfig
 
 config = EnvironmentAwareConfig()
 
