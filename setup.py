@@ -15,7 +15,9 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-
+from pathlib import Path
+this_directory = Path(__file__).parent
+readme_description = (this_directory / "README.md").read_text()
 
 def readme():
     with open("README.md") as f:
@@ -31,6 +33,8 @@ setup(
     name="py-env-aware-config",
     version=__version__,
     description="Configuration detection from the command line",
+    long_description=readme_description,
+    long_description_content_type='text/markdown',
     url="https://github.com/mdcatapult/py-config",
     author="Matthew Cockayne, Mark Laing, Gemma Holliday, Roman Ma",
     license="Apache V2",
