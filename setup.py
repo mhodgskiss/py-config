@@ -30,9 +30,9 @@ if __version__ == "":
     raise RuntimeError("unable to find application version")
 
 setup(
-    name="py-env-aware-config",
+    name="klein_config",
     version=__version__,
-    description="Configuration detection from the command line",
+    description="Read and manage config from environment variables and files",
     long_description=readme_description,
     long_description_content_type='text/markdown',
     url="https://github.com/mdcatapult/py-config",
