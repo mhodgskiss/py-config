@@ -54,7 +54,7 @@ class TestConfigWithFilesWithArgs:
                 return_value=(argparse.Namespace(config="dummy.yml", common=None), argparse.Namespace()))
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
     def test_with_yaml_file(self, mock_open, mock_args):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.yml', 'r')
         assert config.get("key") == "value"
@@ -69,7 +69,7 @@ class TestConfigWithFilesWithArgs:
                 return_value=(argparse.Namespace(config="dummy.json", common=None), argparse.Namespace()))
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=jsonString)
     def test_with_json_file(self, mock_open, mock_args):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.json', 'r')
         assert config.get("key") == "value"
@@ -82,7 +82,7 @@ class TestConfigWithFilesWithArgs:
                 return_value=(argparse.Namespace(config="dummy.conf", common=None), argparse.Namespace()))
     @mock.patch('codecs.open', new_callable=mock.mock_open, read_data=hoconString)
     def test_with_hocon_file(self, mock_open, mock_args):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.conf', 'r', encoding="utf-8")
         assert config.get("key") == "value"
@@ -97,7 +97,7 @@ class TestConfigWithFilesWithArgs:
                 return_value=(argparse.Namespace(config="dummy.conf", common="dummy2.conf"), argparse.Namespace()))
     @mock.patch('codecs.open', new_callable=mock.mock_open, read_data=hoconString)
     def test_with_hocon_files_config_and_common(self, mock_open, mock_args):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_any_call('dummy2.conf', 'r', encoding="utf-8")
         mock_open.assert_any_call('dummy.conf', 'r', encoding="utf-8")
@@ -114,7 +114,7 @@ class TestConfigWithFilesWithArgs:
                 return_value=(argparse.Namespace(config="dummy.yml", common=None), argparse.Namespace()))
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
     def test_nested_env_with_yaml_file(self, mock_open, mock_args):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.yml', 'r')
         assert config.get("key") == "value"
@@ -131,7 +131,7 @@ class TestConfigWithFilesWithEnvironmentalVariable:
     @mock.patch.dict(os.environ, {'PY_ENV_AWARE_CONFIG': 'dummy.yml'})
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
     def test_with_yaml_file(self, mock_open):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.yml', 'r')
         assert config.get("key") == "value"
@@ -145,7 +145,7 @@ class TestConfigWithFilesWithEnvironmentalVariable:
     @mock.patch.dict(os.environ, {'PY_ENV_AWARE_CONFIG': 'dummy.json'})
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=jsonString)
     def test_with_json_file(self, mock_open):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.json', 'r')
         assert config.get("key") == "value"
@@ -157,7 +157,7 @@ class TestConfigWithFilesWithEnvironmentalVariable:
     @mock.patch.dict(os.environ, {'PY_ENV_AWARE_CONFIG': 'dummy.conf'})
     @mock.patch('codecs.open', new_callable=mock.mock_open, read_data=hoconString)
     def test_with_hocon_file(self, mock_open):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.conf', 'r', encoding="utf-8")
         assert config.get("key") == "value"
@@ -171,7 +171,7 @@ class TestConfigWithFilesWithEnvironmentalVariable:
     @mock.patch.dict(os.environ, {'PY_ENV_AWARE_CONFIG': 'dummy.conf', 'PY_ENV_AWARE_COMMON': 'dummy2.conf'})
     @mock.patch('codecs.open', new_callable=mock.mock_open, read_data=hoconString)
     def test_with_hocon_files_config_and_common(self, mock_open):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_any_call('dummy2.conf', 'r', encoding="utf-8")
         mock_open.assert_any_call('dummy.conf', 'r', encoding="utf-8")
@@ -186,7 +186,7 @@ class TestConfigWithFilesWithEnvironmentalVariable:
     @mock.patch.dict(os.environ, {'LEVEL1_LEVEL2_KEY': 'env_value', 'PY_ENV_AWARE_CONFIG': 'dummy.yml'})
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
     def test_nested_env_with_yaml_file(self, mock_open):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         config = get_config()
         mock_open.assert_called_with('dummy.yml', 'r')
         assert config.get("key") == "value"
@@ -205,6 +205,6 @@ class TestConfigwithFilesInvalid:
     @mock.patch.dict(os.environ, {'PY_ENV_AWARE_CONFIG': 'dummy.yml'})
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data=yamlString)
     def test_with_both_arg_and_env(self, mock_open, mock_args):
-        from src.py_env_aware_config.config import get_config
+        from src.klein_config.config import get_config
         with pytest.raises(Exception):
             config = get_config()

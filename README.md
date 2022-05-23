@@ -5,7 +5,7 @@ Module to provide config management
 ## Usage
 
 ```python
-from py_env_aware_config import get_config
+from klein_config import get_config
 
 # Can be overriden with env variable MY_CONFIG_SETTING
 config = get_config({"my": {"config": {"setting": "initialised value"}})
