@@ -32,7 +32,7 @@ if __version__ == "":
 setup(
     name="klein_config",
     version=__version__,
-    description="Read and manage config directly from file",
+    description="Read and manage config from environment variables and files",
     long_description=readme_description,
     long_description_content_type='text/markdown',
     url="https://github.com/mdcatapult/py-config",
