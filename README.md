@@ -1,4 +1,4 @@
-# Py-Env-Aware Config
+# Klein Config
 
 Module to provide config management
 
