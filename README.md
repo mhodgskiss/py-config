@@ -63,14 +63,14 @@ YAML:
 mongo:
   host:
     - mongo.domain.com
-  password: secret
-  username: me
+  password: password
+  username: username
 rabbitmq:
   host:
     - localhost
-  password: doclib
+  password: username
   port: 5672
-  username: doclib
+  username: password
 ```
 
 Example config files are also provided in [json](example.config.json) and [yaml](example.config.yaml) formats.
