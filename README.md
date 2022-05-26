@@ -32,7 +32,7 @@ The `get_config` function looks for :
 - argument `--common` or environmental variable `PY_ENV_AWARE_COMMON` to specify a valid filepath for a common config file (in either JSON or YAML format); and
 - argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG` to specify a valid filepath for a config file 
 
-Please refer to example config files in [json](src/example.config.json) and [yaml](src/example.config.yaml) formats. 
+Please refer to example config files in [json](example.config.json) and [yaml](example.config.yaml) formats. 
 
 However, passing both environmental variables _and_ arguments for either config or common is NOT accepted as this is ambiguous.
 
