@@ -32,21 +32,22 @@ The `get_config` function looks for :
 - argument `--common` or environmental variable `PY_ENV_AWARE_COMMON` to specify a valid filepath for a common config file (in either JSON or YAML format); and
 - argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG` to specify a valid filepath for a config file 
 
-However, passing both the environmental variables and the arguments for either config or common is NOT accepted as it is ambiguous what is expected.
+However, passing both environmental variables _and_ arguments for either config or common is NOT accepted as this is ambiguous.
 
 You can also pass a `dict` into `get_config` function.
 
 ### Order precedence
-The configs are applied to the config object as follows: 
+The configs are applied to the config object in the following order: 
 
-1st: Common config as identified via argument `--common` or environmental variable `PY_ENV_AWARE_COMMON`
-2nd: Config that is injected via the Class constructor
-3rd: Config that is identified via the argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG`
+1. Common config as identified via argument `--common` or environmental variable `PY_ENV_AWARE_COMMON`
+2. Config that is injected via the Class constructor
+3. Config that is identified via the argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG`
 
-Configs will override any previous values as they are applied
+
+Configs will override any previous values as they are applied.
 
 ### Environment Aware
-The module is "Environment Aware" this means that it will test for envrionments variables first. If a valid variable exists then this will be used regardless of any config that may have been supplied.
+The module is "Environment Aware", i.e. it will look for envrionment variables in the first instance. If a valid variable exists then this will be used regardless of any config that may have been supplied.
 
 The path is transformed by converting the string to uppercase and replacing all dots with underscores.
 
