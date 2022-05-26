@@ -77,13 +77,16 @@ pipenv run python -m pytest --cov-report term --cov src/ tests/
 
 ### Troubleshooting
 
-If you are unable to run `pipenv shell` and are having permission errors, you can spin up a virtual environment to run 
-the `pipenv` commands a different way
+If you are unable to run `pipenv shell` and are having permission errors, you can spin up a virtual environment in which to run 
+the `pipenv` commands:
 
-1. Run `pip install virtualenv` to install a virtual environment
-2. While in your projects root directory, run `virtual env venv`
-3. Then to start your virtual environment, run `source venv/bin/activate`
-4. Then run this command `pipenv install --dev` and you should now be able to run the commands above
+```bash
+pip install virtualenv      // install virtualenv module
+virtual env venv            // create your virtual environment (run command from project root directory)
+source venv/bin/activate    // start the virtual environment
+pipenv install --dev        // install dependencies - you should now be able to run the tests with the above commands
+```
+
 
 ### License
 This project is licensed under the terms of the Apache 2 license, which can be found in the repository as `LICENSE.txt`
