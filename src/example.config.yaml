@@ -1,0 +1,11 @@
+mongo:
+  host:
+    - mongo.domain.com
+  password: secret
+  username: me
+rabbitmq:
+  host:
+    - localhost
+  password: doclib
+  port: 5672
+  username: doclib
