@@ -46,15 +46,15 @@ JSON:
       "localhost"
     ],
     "port": 5672,
-    "username": "doclib",
-    "password": "doclib"
+    "username": "username",
+    "password": "password"
   },
   "mongo": {
     "host": [
       "mongo.domain.com"
     ],
-    "username": "me",
-    "password": "secret"
+    "username": "username",
+    "password": "password"
   }
 }
 ```
