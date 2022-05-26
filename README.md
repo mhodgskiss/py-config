@@ -32,11 +32,48 @@ The `get_config` function looks for :
 - argument `--common` or environmental variable `PY_ENV_AWARE_COMMON` to specify a valid filepath for a common config file (in either JSON or YAML format); and
 - argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG` to specify a valid filepath for a config file 
 
-Please refer to example config files in [json](example.config.json) and [yaml](example.config.yaml) formats. 
 
-However, passing both environmental variables _and_ arguments for either config or common is NOT accepted as this is ambiguous.
+N.B. Passing both environmental variables _and_ arguments for either config or common is ambiguous and is therefore NOT accepted.
 
-You can also pass a `dict` into `get_config` function.
+You can also pass a `dict` into the `get_config` function.
+
+#### Example configs
+JSON:
+```json
+{
+  "rabbitmq": {
+    "host": [
+      "localhost"
+    ],
+    "port": 5672,
+    "username": "doclib",
+    "password": "doclib"
+  },
+  "mongo": {
+    "host": [
+      "mongo.domain.com"
+    ],
+    "username": "me",
+    "password": "secret"
+  }
+}
+```
+YAML:
+```yaml
+mongo:
+  host:
+    - mongo.domain.com
+  password: secret
+  username: me
+rabbitmq:
+  host:
+    - localhost
+  password: doclib
+  port: 5672
+  username: doclib
+```
+
+Example config files are also provided in [json](example.config.json) and [yaml](example.config.yaml) formats.
 
 ### Order precedence
 The configs are applied to the config object in the following order: 
