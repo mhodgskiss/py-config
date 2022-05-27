@@ -45,7 +45,7 @@ def parse_args():
 def get_config(initial=None):
     args = parse_args()
 
-    # Raise Exeption if both environmental variables and arguments are used
+    # Raise Exception if both environmental variables and arguments are used
     common_from_args = args.common
     common_from_env = os.environ.get(COMMON_ENVVAR_NAME)
     if common_from_args and common_from_env:

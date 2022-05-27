@@ -1,4 +1,4 @@
-# Py-Env-Aware Config
+# Klein Config
 
 Module to provide config management
 
@@ -32,21 +32,61 @@ The `get_config` function looks for :
 - argument `--common` or environmental variable `PY_ENV_AWARE_COMMON` to specify a valid filepath for a common config file (in either JSON or YAML format); and
 - argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG` to specify a valid filepath for a config file 
 
-However, passing both the environmental variables and the arguments for either config or common is NOT accepted as it is ambiguous what is expected.
 
-You can also pass a `dict` into `get_config` function.
+N.B. Passing both environmental variables _and_ arguments for either config or common is ambiguous and is therefore NOT accepted.
+
+You can also pass a `dict` into the `get_config` function.
+
+#### Example configs
+JSON:
+```json
+{
+  "rabbitmq": {
+    "host": [
+      "localhost"
+    ],
+    "port": 5672,
+    "username": "username",
+    "password": "password"
+  },
+  "mongo": {
+    "host": [
+      "mongo.domain.com"
+    ],
+    "username": "username",
+    "password": "password"
+  }
+}
+```
+YAML:
+```yaml
+mongo:
+  host:
+    - mongo.domain.com
+  password: password
+  username: username
+rabbitmq:
+  host:
+    - localhost
+  password: username
+  port: 5672
+  username: password
+```
+
+Example config files are also provided in [json](example.config.json) and [yaml](example.config.yaml) formats.
 
 ### Order precedence
-The configs are applied to the config object as follows: 
+The configs are applied to the config object in the following order: 
 
-1st: Common config as identified via argument `--common` or environmental variable `PY_ENV_AWARE_COMMON`
-2nd: Config that is injected via the Class constructor
-3rd: Config that is identified via the argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG`
+1. Common config as identified via argument `--common` or environmental variable `PY_ENV_AWARE_COMMON`
+2. Config that is injected via the Class constructor
+3. Config that is identified via the argument `--config` or environmental variable `PY_ENV_AWARE_CONFIG`
 
-Configs will override any previous values as they are applied
+
+Configs will override any previous values as they are applied.
 
 ### Environment Aware
-The module is "Environment Aware" this means that it will test for envrionments variables first. If a valid variable exists then this will be used regardless of any config that may have been supplied.
+The module is "Environment Aware", i.e. it will look for envrionment variables in the first instance. If a valid variable exists then this will be used regardless of any config that may have been supplied.
 
 The path is transformed by converting the string to uppercase and replacing all dots with underscores.
 
@@ -76,13 +116,16 @@ pipenv run python -m pytest --cov-report term --cov src/ tests/
 
 ### Troubleshooting
 
-If you are unable to run `pipenv shell` and are having permission errors, you can spin up a virtual environment to run 
-the `pipenv` commands a different way
+If you are unable to run `pipenv shell` and are having permission errors, you can spin up a virtual environment in which to run 
+the `pipenv` commands:
 
-1. Run `pip install virtualenv` to install a virtual environment
-2. While in your projects root directory, run `virtual env venv`
-3. Then to start your virtual environment, run `source venv/bin/activate`
-4. Then run this command `pipenv install --dev` and you should now be able to run the commands above
+```bash
+pip install virtualenv      // install virtualenv module
+virtual env venv            // create your virtual environment (run command from project root directory)
+source venv/bin/activate    // start the virtual environment
+pipenv install --dev        // install dependencies - you should now be able to run the tests with the above commands
+```
+
 
 ### License
 This project is licensed under the terms of the Apache 2 license, which can be found in the repository as `LICENSE.txt`
